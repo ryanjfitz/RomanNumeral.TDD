@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace RomanNumeral.TDD.Tests
 {
     public static class RomanNumeralConverter
@@ -71,29 +69,19 @@ namespace RomanNumeral.TDD.Tests
 
         private static int GetDigitAtPlace(int arabicNumber, Place place)
         {
-            char[] s = arabicNumber.ToString().Reverse().ToArray();
-
             switch (place)
             {
                 case Place.Thousands:
-                    if (s.Length >= 4)
-                        return int.Parse(s[3].ToString());
-                    break;
+                    return arabicNumber / 1000;
                 case Place.Hundreds:
-                    if (s.Length >= 3)
-                        return int.Parse(s[2].ToString());
-                    break;
+                    return arabicNumber % 1000 / 100;
                 case Place.Tens:
-                    if (s.Length >= 2)
-                        return int.Parse(s[1].ToString());
-                    break;
+                    return arabicNumber % 1000 % 100 / 10;
                 case Place.Ones:
-                    if (s.Length >= 1)
-                        return int.Parse(s[0].ToString());
-                    break;
+                    return arabicNumber % 1000 % 100 % 10;
+                default:
+                    return 0;
             }
-
-            return 0;
         }
 
         private enum Place
