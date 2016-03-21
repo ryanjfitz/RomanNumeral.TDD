@@ -4,42 +4,15 @@ namespace RomanNumeral.TDD.Tests
     {
         public static string Convert(int arabicNumber)
         {
-            string thousandsNumeral = CalculateThousandsNumeral(arabicNumber);
+            string thousandsNumeral = CalculateNumeral(arabicNumber, Place.Thousands, "M", null, null);
 
-            string hundredsNumeral = CalculateHundredsNumeral(arabicNumber);
+            string hundredsNumeral = CalculateNumeral(arabicNumber, Place.Hundreds, "C", "D", "CM");
 
-            string tensNumeral = CalculateTensNumeral(arabicNumber);
+            string tensNumeral = CalculateNumeral(arabicNumber, Place.Tens, "X", "L", "XC");
 
-            string onesNumeral = CalculateOnesNumeral(arabicNumber);
+            string onesNumeral = CalculateNumeral(arabicNumber, Place.Ones, "I", "V", "IX");
 
             return thousandsNumeral + hundredsNumeral + tensNumeral + onesNumeral;
-        }
-
-        private static string CalculateThousandsNumeral(int arabicNumber)
-        {
-            string romanNumeral = "";
-
-            int thousandsDigit = GetDigitAtPlace(arabicNumber, Place.Thousands);
-
-            for (int i = 0; i < thousandsDigit; i++)
-                romanNumeral += "M";
-
-            return romanNumeral;
-        }
-
-        private static string CalculateHundredsNumeral(int arabicNumber)
-        {
-            return CalculateNumeral(arabicNumber, Place.Hundreds, "C", "D", "CM");
-        }
-
-        private static string CalculateTensNumeral(int arabicNumber)
-        {
-            return CalculateNumeral(arabicNumber, Place.Tens, "X", "L", "XC");
-        }
-
-        private static string CalculateOnesNumeral(int arabicNumber)
-        {
-            return CalculateNumeral(arabicNumber, Place.Ones, "I", "V", "IX");
         }
 
         private static string CalculateNumeral(int arabicNumber, Place place, string unitNumeral, string midwayNumeral, string endNumeral)
@@ -48,7 +21,7 @@ namespace RomanNumeral.TDD.Tests
 
             int digitAtPlace = GetDigitAtPlace(arabicNumber, place);
 
-            if (digitAtPlace < 4)
+            if (digitAtPlace < 4 || place == Place.Thousands)
                 for (int i = 0; i < digitAtPlace; i++)
                     romanNumeral += unitNumeral;
             else if (digitAtPlace < 9)
